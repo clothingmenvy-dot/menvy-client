@@ -80,12 +80,12 @@ const Purchases: React.FC = () => {
     {
       key: 'price',
       header: 'Unit Price',
-      render: (value: number) => `$${value.toFixed(2)}`
+      render: (value: number) => `৳${value.toFixed(2)}`
     },
     {
       key: 'total',
       header: 'Total',
-      render: (value: number) => `$${value.toFixed(2)}`
+      render: (value: number) => `৳${value.toFixed(2)}`
     },
     {
       key: 'createdAt',

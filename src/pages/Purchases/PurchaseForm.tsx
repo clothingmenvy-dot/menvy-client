@@ -46,7 +46,7 @@ const PurchaseForm: React.FC<PurchaseFormProps> = ({ purchase, onClose }) => {
   const onSubmit = async (data: PurchaseFormData) => {
     try {
       const selectedProduct = products.find(p => p._id === data.productId);
-      
+
       const purchaseData = {
         ...data,
         total: data.quantity * data.price,
@@ -67,7 +67,7 @@ const PurchaseForm: React.FC<PurchaseFormProps> = ({ purchase, onClose }) => {
         await dispatch(createPurchase(purchaseData)).unwrap();
         Swal.fire('Success!', 'Purchase recorded successfully.', 'success');
       }
-      
+
       onClose();
     } catch (error: any) {
       Swal.fire('Error!', error.message || 'Failed to save purchase. Please try again.', 'error');
@@ -87,7 +87,7 @@ const PurchaseForm: React.FC<PurchaseFormProps> = ({ purchase, onClose }) => {
           <option value="">Select product</option>
           {products.map(product => (
             <option key={product._id} value={product._id}>
-              {product.name} - ${product.price}
+              {product.name} - ৳{product.price}
             </option>
           ))}
         </select>
@@ -114,7 +114,7 @@ const PurchaseForm: React.FC<PurchaseFormProps> = ({ purchase, onClose }) => {
             Quantity *
           </label>
           <input
-            {...register('quantity', { 
+            {...register('quantity', {
               required: 'Quantity is required',
               min: { value: 1, message: 'Quantity must be at least 1' }
             })}
@@ -132,7 +132,7 @@ const PurchaseForm: React.FC<PurchaseFormProps> = ({ purchase, onClose }) => {
             Unit Price *
           </label>
           <input
-            {...register('price', { 
+            {...register('price', {
               required: 'Price is required',
               min: { value: 0.01, message: 'Price must be positive' }
             })}
@@ -151,7 +151,7 @@ const PurchaseForm: React.FC<PurchaseFormProps> = ({ purchase, onClose }) => {
         <div className="flex justify-between items-center">
           <span className="text-lg font-medium text-gray-700">Total:</span>
           <span className="text-2xl font-bold text-red-600">
-            ${total.toFixed(2)}
+            ৳{total.toFixed(2)}
           </span>
         </div>
       </div>

@@ -5,7 +5,7 @@ class ApiClient {
   private baseURL: string;
   private axiosInstance: AxiosInstance;
 
-  constructor(baseURL: string = 'http://localhost:5000/api') {
+  constructor(baseURL: string = 'https://inventory-management-system-server-seven.vercel.app/api') {
     this.baseURL = baseURL;
     this.axiosInstance = axios.create({
       baseURL,

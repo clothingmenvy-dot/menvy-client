@@ -14,7 +14,6 @@ export interface Product {
   updatedAt: string;
 }
 
-
 export interface Category {
   _id: string;
   name: string;
@@ -43,7 +42,7 @@ export const fetchProducts = createAsyncThunk<Product[], void, { rejectValue: st
   async (_, { rejectWithValue }) => {
     try {
       const response = await apiClient.getProducts();
-      return response.data; // Adjust based on your apiClient response structure
+      return response.data;
     } catch (error: any) {
       return rejectWithValue(error.message || 'Failed to fetch products');
     }
@@ -54,9 +53,8 @@ export const createProduct = createAsyncThunk<Product, Omit<Product, 'id' | 'cre
   'products/createProduct',
   async (productData, { rejectWithValue }) => {
     try {
-      console.log('Creating product with data:', productData);
       const response = await apiClient.createProduct(productData);
-      return response.data; // Adjust based on your apiClient response structure
+      return response.data;
     } catch (error: any) {
       return rejectWithValue(error.message || 'Failed to create product');
     }
@@ -68,7 +66,7 @@ export const updateProduct = createAsyncThunk<Product, Product, { rejectValue: s
   async (product, { rejectWithValue }) => {
     try {
       const response = await apiClient.updateProduct(product._id, product);
-      return response.data; // Adjust based on your apiClient response structure
+      return response.data;
     } catch (error: any) {
       return rejectWithValue(error.message || 'Failed to update product');
     }
@@ -93,7 +91,7 @@ export const fetchCategories = createAsyncThunk<Category[], void, { rejectValue:
   async (_, { rejectWithValue }) => {
     try {
       const response = await apiClient.getCategories();
-      return response.data; // Adjust based on your apiClient response structure
+      return response.data;
     } catch (error: any) {
       return rejectWithValue(error.message || 'Failed to fetch categories');
     }
@@ -142,7 +140,7 @@ export const fetchBrands = createAsyncThunk<Brand[], void, { rejectValue: string
   async (_, { rejectWithValue }) => {
     try {
       const response = await apiClient.getBrands();
-      return response.data; // Adjust based on your apiClient response structure
+      return response.data;
     } catch (error: any) {
       return rejectWithValue(error.message || 'Failed to fetch brands');
     }
@@ -154,7 +152,7 @@ export const createBrand = createAsyncThunk<Brand, Omit<Brand, 'id' | 'createdAt
   async (brandData, { rejectWithValue }) => {
     try {
       const response = await apiClient.createBrand(brandData);
-      return response.data; // Adjust based on your apiClient response structure
+      return response.data;
     } catch (error: any) {
       return rejectWithValue(error.message || 'Failed to create brand');
     }
@@ -166,7 +164,7 @@ export const updateBrand = createAsyncThunk<Brand, Brand, { rejectValue: string 
   async (brand, { rejectWithValue }) => {
     try {
       const response = await apiClient.updateBrand(brand._id, brand);
-      return response.data; // Adjust based on your apiClient response structure
+      return response.data;
     } catch (error: any) {
       return rejectWithValue(error.message || 'Failed to update brand');
     }
@@ -187,20 +185,8 @@ export const deleteBrand = createAsyncThunk<string, string, { rejectValue: strin
 
 const initialState: ProductState = {
   products: [],
-  categories: [
-    { _id: '1', name: 'Electronics', createdAt: new Date().toISOString(), userId: 'system' },
-    { _id: '2', name: 'Clothing', createdAt: new Date().toISOString(), userId: 'system' },
-    { _id: '3', name: 'Books', createdAt: new Date().toISOString(), userId: 'system' },
-    { _id: '4', name: 'Home & Garden', createdAt: new Date().toISOString(), userId: 'system' },
-    { _id: '5', name: 'Sports', createdAt: new Date().toISOString(), userId: 'system' },
-  ],
-  brands: [
-    { _id: '1', name: 'Apple', createdAt: new Date().toISOString(), userId: 'system' },
-    { _id: '2', name: 'Samsung', createdAt: new Date().toISOString(), userId: 'system' },
-    { _id: '3', name: 'Nike', createdAt: new Date().toISOString(), userId: 'system' },
-    { _id: '4', name: 'Adidas', createdAt: new Date().toISOString(), userId: 'system' },
-    { _id: '5', name: 'Generic', createdAt: new Date().toISOString(), userId: 'system' },
-  ],
+  categories: [],
+  brands: [],
   isLoading: false,
   error: null,
 };
@@ -274,9 +260,7 @@ const productSlice = createSlice({
       })
       .addCase(fetchCategories.fulfilled, (state, action) => {
         state.isLoading = false;
-        const systemCategories = state.categories.filter((c) => c.userId === 'system');
-        const systemIds = new Set(systemCategories.map((c) => c._id));
-        state.categories = [...systemCategories, ...action.payload.filter((c) => !systemIds.has(c._id))];
+        state.categories = action.payload;
       })
       .addCase(fetchCategories.rejected, (state, action) => {
         state.isLoading = false;
@@ -328,9 +312,7 @@ const productSlice = createSlice({
       })
       .addCase(fetchBrands.fulfilled, (state, action) => {
         state.isLoading = false;
-        const systemBrands = state.brands.filter((b) => b.userId === 'system');
-        const systemIds = new Set(systemBrands.map((b) => b._id));
-        state.brands = [...systemBrands, ...action.payload.filter((b) => !systemIds.has(b._id))];
+        state.brands = action.payload;
       })
       .addCase(fetchBrands.rejected, (state, action) => {
         state.isLoading = false;

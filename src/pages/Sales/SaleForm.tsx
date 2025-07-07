@@ -48,7 +48,7 @@ const SaleForm: React.FC<SaleFormProps> = ({ sale, onClose }) => {
     try {
       const selectedProduct = products.find(p => p._id === data.productId);
       const selectedSeller = sellers.find(s => s._id === data.sellerId);
-      
+
       const saleData = {
         ...data,
         total: data.quantity * data.price,
@@ -70,7 +70,7 @@ const SaleForm: React.FC<SaleFormProps> = ({ sale, onClose }) => {
         await dispatch(createSale(saleData)).unwrap();
         Swal.fire('Success!', 'Sale recorded successfully.', 'success');
       }
-      
+
       onClose();
     } catch (error: any) {
       Swal.fire('Error!', error.message || 'Failed to save sale. Please try again.', 'error');
@@ -90,7 +90,7 @@ const SaleForm: React.FC<SaleFormProps> = ({ sale, onClose }) => {
           <option value="">Select product</option>
           {products.map(product => (
             <option key={product._id} value={product._id}>
-              {product.name} - ${product.price}
+              {product.name} - ৳{product.price}
             </option>
           ))}
         </select>
@@ -122,7 +122,7 @@ const SaleForm: React.FC<SaleFormProps> = ({ sale, onClose }) => {
             Quantity *
           </label>
           <input
-            {...register('quantity', { 
+            {...register('quantity', {
               required: 'Quantity is required',
               min: { value: 1, message: 'Quantity must be at least 1' }
             })}
@@ -140,7 +140,7 @@ const SaleForm: React.FC<SaleFormProps> = ({ sale, onClose }) => {
             Unit Price *
           </label>
           <input
-            {...register('price', { 
+            {...register('price', {
               required: 'Price is required',
               min: { value: 0.01, message: 'Price must be positive' }
             })}
@@ -159,7 +159,7 @@ const SaleForm: React.FC<SaleFormProps> = ({ sale, onClose }) => {
         <div className="flex justify-between items-center">
           <span className="text-lg font-medium text-gray-700">Total:</span>
           <span className="text-2xl font-bold text-green-600">
-            ${total.toFixed(2)}
+            ৳{total.toFixed(2)}
           </span>
         </div>
       </div>

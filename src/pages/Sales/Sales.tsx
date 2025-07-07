@@ -120,11 +120,11 @@ const Sales: React.FC = () => {
               </div>
               <div class="item">
                 <span>Unit Price:</span>
-                <span>$${sale.price.toFixed(2)}</span>
+                <span>৳${sale.price.toFixed(2)}</span>
               </div>
               <div class="item">
                 <span>Total:</span>
-                <span>$${sale.total.toFixed(2)}</span>
+                <span>৳${sale.total.toFixed(2)}</span>
               </div>
               <div class="divider"></div>
               <div class="footer">Thank you for shopping with us!</div>
@@ -155,12 +155,12 @@ const Sales: React.FC = () => {
     {
       key: 'price',
       header: 'Unit Price',
-      render: (value: number) => `$${value.toFixed(2)}`
+      render: (value: number) => `৳${value.toFixed(2)}`
     },
     {
       key: 'total',
       header: 'Total',
-      render: (value: number) => `$${value.toFixed(2)}`
+      render: (value: number) => `৳${value.toFixed(2)}`
     },
     {
       key: 'createdAt',
@@ -227,7 +227,7 @@ const Sales: React.FC = () => {
           </div>
           
           <div className="text-sm text-gray-600 flex items-center">
-            Total Revenue: ${sales.reduce((acc, sale) => acc + sale.total, 0).toLocaleString()}
+            Total Revenue: ৳{sales.reduce((acc, sale) => acc + sale.total, 0).toLocaleString()}
           </div>
         </div>
       </div>

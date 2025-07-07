@@ -92,7 +92,7 @@ const Products: React.FC = () => {
     {
       key: 'price',
       header: 'Price',
-      render: (value: number) => `$${value.toFixed(2)}`
+      render: (value: number) => `৳${value.toFixed(2)}`
     },
     {
       key: 'stock',
