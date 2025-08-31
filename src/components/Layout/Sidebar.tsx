@@ -17,6 +17,7 @@ import { AppDispatch } from '../../store/store';
 import { logoutUser } from '../../store/slices/authSlice';
 import { useProductsAuth } from '../../hooks/useProductsAuth';
 import Swal from 'sweetalert2';
+import logo from '../../assets/logo.png';
 
 const Sidebar: React.FC = () => {
   const location = useLocation();
@@ -66,7 +67,7 @@ const Sidebar: React.FC = () => {
     <div className="bg-white shadow-lg h-full w-64 fixed left-0 top-0 z-30 border-r border-gray-200">
       <div className="p-6 border-b border-gray-200">
         <div className="flex items-center space-x-3">
-            <img src="/src/assets/logo.png" alt="InventoryPro Logo" />
+            <img src={logo} alt="InventoryPro Logo" />
           <div>
           </div>
         </div>
