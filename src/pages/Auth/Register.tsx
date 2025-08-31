@@ -1,10 +1,12 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { AppDispatch, RootState } from '../../store/store';
 import { registerUser, clearError } from '../../store/slices/authSlice';
-import { TrendingUp, Mail, Lock, User, Eye, EyeOff, AlertCircle, CheckCircle } from 'lucide-react';
+import { Mail, Lock, User, Eye, EyeOff, AlertCircle, CheckCircle } from 'lucide-react';
+import logo from '../../assets/logo.png';
 
 interface RegisterForm {
   displayName: string;
@@ -18,9 +20,9 @@ const Register: React.FC = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  
+
   const { isLoading, error } = useSelector((state: RootState) => state.auth);
-  
+
   const { register, handleSubmit, watch, formState: { errors } } = useForm<RegisterForm>();
 
   const password = watch('password');
@@ -48,7 +50,7 @@ const Register: React.FC = () => {
 
   const getPasswordStrength = (password: string) => {
     if (!password) return { strength: 0, label: '', color: '' };
-    
+
     let strength = 0;
     if (password.length >= 8) strength++;
     if (/[A-Z]/.test(password)) strength++;
@@ -58,7 +60,7 @@ const Register: React.FC = () => {
 
     const labels = ['Very Weak', 'Weak', 'Fair', 'Good', 'Strong'];
     const colors = ['bg-red-500', 'bg-orange-500', 'bg-yellow-500', 'bg-blue-500', 'bg-green-500'];
-    
+
     return {
       strength,
       label: labels[strength - 1] || '',
@@ -72,13 +74,21 @@ const Register: React.FC = () => {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
-          <div className="text-center">
-            <div className="mx-auto h-16 w-16 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-full flex items-center justify-center shadow-lg">
-              <TrendingUp className="h-8 w-8 text-white" />
+          {/* Logo Section */}
+          <div className="flex justify-center mb-6">
+            <div className="flex flex-col items-center">
+              <img
+                src={logo}
+                alt="Menvy Logo"
+                className="h-16 w-auto mb-2"
+              />
+              <p className="text-sm text-gray-500">Fashion & Apparel</p>
             </div>
-            <h2 className="mt-6 text-3xl font-bold text-gray-900">Create Account</h2>
+          </div>
+
+          <div className="text-center">
             <p className="mt-2 text-sm text-gray-600">
-              Join InventoryPro and start managing your inventory
+              Join Menvy and start managing your inventory
             </p>
           </div>
 

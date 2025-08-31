@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { auth } from '../../firebase/config';
 
@@ -5,7 +6,7 @@ class ApiClient {
   private baseURL: string;
   private axiosInstance: AxiosInstance;
 
-  constructor(baseURL: string = 'https://inventory-management-system-server-seven.vercel.app/api') {
+  constructor(baseURL: string = 'http://localhost:5000/api/v2') {
     this.baseURL = baseURL;
     this.axiosInstance = axios.create({
       baseURL,

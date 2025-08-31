@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
@@ -12,7 +13,7 @@ interface ProductFormProps {
 }
 
 interface ProductFormData {
-  _id: string;
+  _id?: string;
   name: string;
   description: string;
   category: string;
@@ -24,19 +25,19 @@ interface ProductFormData {
 
 const ProductForm: React.FC<ProductFormProps> = ({ product, onClose }) => {
   const dispatch = useDispatch<AppDispatch>();
-  // const { user } = useSelector((state: RootState) => state.auth);
   const { categories, brands, isLoading } = useSelector((state: RootState) => state.products);
-
   const { register, handleSubmit, formState: { errors } } = useForm<ProductFormData>({
-    defaultValues: product ? {
-      name: product.name,
-      description: product.description,
-      category: product.category,
-      brand: product.brand,
-      price: product.price,
-      stock: product.stock,
-      sku: product.sku,
-    } : undefined
+    defaultValues: product
+      ? {
+        name: product.name,
+        description: product.description,
+        category: product.category,
+        brand: product.brand,
+        price: product.price,
+        stock: product.stock,
+        sku: product.sku,
+      }
+      : { name: '', description: '', category: '', brand: '', price: 0, stock: 0, sku: '' }
   });
 
   useEffect(() => {
@@ -63,7 +64,6 @@ const ProductForm: React.FC<ProductFormProps> = ({ product, onClose }) => {
         await dispatch(createProduct(newProductData)).unwrap();
         Swal.fire('Success!', 'Product added successfully.', 'success');
       }
-
       onClose();
     } catch (error: any) {
       Swal.fire('Error!', error.message || 'Failed to save product. Please try again.', 'error');
@@ -90,13 +90,13 @@ const ProductForm: React.FC<ProductFormProps> = ({ product, onClose }) => {
 
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
-            SKU *
+            Type *
           </label>
           <input
             {...register('sku', { required: 'SKU is required' })}
             type="text"
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            placeholder="Enter SKU"
+            placeholder="Enter SKU manually"
           />
           {errors.sku && (
             <p className="mt-1 text-sm text-red-600">{errors.sku.message}</p>

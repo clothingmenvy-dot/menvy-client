@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState, useMemo, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState, AppDispatch } from '../../store/store';
@@ -30,11 +31,14 @@ const Products: React.FC = () => {
     dispatch(fetchBrands());
   }, [dispatch]);
 
-  // Filter and search logic
+  // Filter and search logic including code
   const filteredProducts = useMemo(() => {
     return products.filter(product => {
-      const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        product.sku.toLowerCase().includes(searchTerm.toLowerCase());
+      const term = searchTerm.toLowerCase();
+      const matchesSearch =
+        product.name.toLowerCase().includes(term) ||
+        product.sku.toLowerCase().includes(term) ||
+        product.code?.toLowerCase().includes(term);
       const matchesCategory = !categoryFilter || product.category === categoryFilter;
       const matchesBrand = !brandFilter || product.brand === brandFilter;
 
@@ -84,9 +88,11 @@ const Products: React.FC = () => {
     setIsCategoryBrandModalOpen(false);
   };
 
+  // Table columns including code
   const columns = [
     { key: 'name', header: 'Product Name' },
     { key: 'sku', header: 'SKU' },
+    { key: 'code', header: 'Code' }, // code column
     { key: 'category', header: 'Category' },
     { key: 'brand', header: 'Brand' },
     {
@@ -109,7 +115,7 @@ const Products: React.FC = () => {
     {
       key: 'actions',
       header: 'Actions',
-      render: (_, product: Product) => (
+      render: (_: any, product: Product) => (
         <div className="flex space-x-2">
           <button
             onClick={() => handleEdit(product)}
@@ -130,6 +136,7 @@ const Products: React.FC = () => {
 
   return (
     <div className="space-y-6">
+      {/* Header */}
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-bold text-gray-900">Products</h1>
         <div className="flex space-x-3">

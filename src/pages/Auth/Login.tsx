@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
@@ -5,6 +6,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { AppDispatch, RootState } from '../../store/store';
 import { loginUser, clearError } from '../../store/slices/authSlice';
 import { TrendingUp, Mail, Lock, Eye, EyeOff, AlertCircle } from 'lucide-react';
+import logo from '../../assets/logo.png';
 
 interface LoginForm {
   email: string;
@@ -16,9 +18,9 @@ const Login: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const location = useLocation();
-  
+
   const { isLoading, error } = useSelector((state: RootState) => state.auth);
-  
+
   const { register, handleSubmit, formState: { errors } } = useForm<LoginForm>();
 
   const from = location.state?.from?.pathname || '/dashboard';
@@ -40,15 +42,21 @@ const Login: React.FC = () => {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
+          {/* Logo Section */}
           <div className="text-center">
-            <div className="mx-auto h-16 w-16 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-full flex items-center justify-center shadow-lg">
-              <TrendingUp className="h-8 w-8 text-white" />
-            </div>
-            <h2 className="mt-6 text-3xl font-bold text-gray-900">Welcome Back</h2>
-            <p className="mt-2 text-sm text-gray-600">
-              Sign in to your InventoryPro account
-            </p>
+            <h2 className="text-2xl font-bold text-gray-900">Welcome Back</h2>
           </div>
+          <div className="flex justify-center mb-6">
+            <div className="flex flex-col items-center">
+              <img
+                src={logo}
+                alt="Menvy Logo"
+                className="h-16 w-auto mb-2"
+              />
+              <p className="text-sm text-gray-500">Fashion & Apparel</p>
+            </div>
+          </div>
+
 
           {error && (
             <div className="mt-6 bg-red-50 border border-red-200 rounded-lg p-4">
@@ -69,7 +77,6 @@ const Login: React.FC = () => {
               </div>
             </div>
           )}
-
           <form className="mt-8 space-y-6" onSubmit={handleSubmit(onSubmit)}>
             <div className="space-y-4">
               <div>
@@ -144,12 +151,6 @@ const Login: React.FC = () => {
               </div>
 
               <div className="text-sm">
-                <Link
-                  to="/forgot-password"
-                  className="font-medium text-blue-600 hover:text-blue-500 transition-colors"
-                >
-                  Forgot your password?
-                </Link>
               </div>
             </div>
 

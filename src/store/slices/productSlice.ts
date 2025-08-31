@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { apiClient } from '../api/apiClient';
 
@@ -10,6 +11,7 @@ export interface Product {
   price: number;
   stock: number;
   sku: string;
+  code: string;
   createdAt: string;
   updatedAt: string;
 }

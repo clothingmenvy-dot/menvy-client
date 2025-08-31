@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { apiClient } from '../api/apiClient';
 
@@ -12,6 +13,7 @@ export interface Sale {
   sellerName?: string;
   createdAt: string;
   updatedAt: string;
+  bill_no: string;
 }
 
 interface SaleState {

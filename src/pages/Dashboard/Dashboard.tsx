@@ -1,22 +1,31 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../store/store';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// Dashboard.tsx (updated)
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Package, Users, ShoppingCart, ShoppingBag, TrendingUp, DollarSign } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line } from 'recharts';
+import { fetchDashboardData, selectDashboard } from '../../store/slices/dashboardSlice';
 
 const Dashboard: React.FC = () => {
-  const { products } = useSelector((state: RootState) => state.products);
-  const { sellers } = useSelector((state: RootState) => state.sellers);
-  const { sales } = useSelector((state: RootState) => state.sales);
-  const { purchases } = useSelector((state: RootState) => state.purchases);
+  const dispatch = useDispatch();
+  const { stats, loading, error } = useSelector(selectDashboard);
 
-  const totalRevenue = sales.reduce((acc, sale) => acc + sale.total, 0);
-  const totalExpenses = purchases.reduce((acc, purchase) => acc + purchase.total, 0);
+  useEffect(() => {
+    dispatch(fetchDashboardData() as any);
+  }, [dispatch]);
 
-  const stats = [
+  if (loading) {
+    return <div className="flex justify-center items-center h-64">Loading dashboard data...</div>;
+  }
+
+  if (error) {
+    return <div className="flex justify-center items-center h-64 text-red-500">Error: {error}</div>;
+  }
+
+  const statsData = [
     {
       title: 'Total Products',
-      value: products.length,
+      value: stats.totalProducts,
       icon: Package,
       color: 'bg-blue-500',
       textColor: 'text-blue-600',
@@ -24,7 +33,7 @@ const Dashboard: React.FC = () => {
     },
     {
       title: 'Total Sellers',
-      value: sellers.length,
+      value: stats.totalSellers,
       icon: Users,
       color: 'bg-green-500',
       textColor: 'text-green-600',
@@ -32,7 +41,7 @@ const Dashboard: React.FC = () => {
     },
     {
       title: 'Total Sales',
-      value: sales.length,
+      value: stats.totalSales,
       icon: ShoppingCart,
       color: 'bg-purple-500',
       textColor: 'text-purple-600',
@@ -40,7 +49,7 @@ const Dashboard: React.FC = () => {
     },
     {
       title: 'Total Purchases',
-      value: purchases.length,
+      value: stats.totalPurchases,
       icon: ShoppingBag,
       color: 'bg-orange-500',
       textColor: 'text-orange-600',
@@ -48,7 +57,7 @@ const Dashboard: React.FC = () => {
     },
     {
       title: 'Revenue',
-      value: `৳${totalRevenue.toLocaleString()}`,
+      value: `৳${stats.totalRevenue.toLocaleString()}`,
       icon: DollarSign,
       color: 'bg-emerald-500',
       textColor: 'text-emerald-600',
@@ -56,22 +65,12 @@ const Dashboard: React.FC = () => {
     },
     {
       title: 'Profit',
-      value: `৳${(totalRevenue - totalExpenses).toLocaleString()}`,
+      value: `৳${stats.totalProfit.toLocaleString()}`,
       icon: TrendingUp,
       color: 'bg-indigo-500',
       textColor: 'text-indigo-600',
       bgColor: 'bg-indigo-50',
     },
-  ];
-
-  // Sample data for charts
-  const monthlyData = [
-    { month: 'Jan', sales: 12000, purchases: 8000 },
-    { month: 'Feb', sales: 19000, purchases: 12000 },
-    { month: 'Mar', sales: 15000, purchases: 10000 },
-    { month: 'Apr', sales: 22000, purchases: 15000 },
-    { month: 'May', sales: 18000, purchases: 11000 },
-    { month: 'Jun', sales: 25000, purchases: 16000 },
   ];
   
   return (
@@ -85,7 +84,7 @@ const Dashboard: React.FC = () => {
 
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {stats.map((stat, index) => {
+        {statsData.map((stat, index) => {
           const IconComponent = stat.icon;
           return (
             <div key={index} className="bg-white rounded-lg shadow-sm border p-6">
@@ -109,7 +108,7 @@ const Dashboard: React.FC = () => {
         <div className="bg-white rounded-lg shadow-sm border p-6">
           <h3 className="text-lg font-semibold text-gray-900 mb-4">Sales vs Purchases</h3>
           <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={monthlyData}>
+            <BarChart data={stats.monthlyData}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="month" />
               <YAxis />
@@ -124,7 +123,7 @@ const Dashboard: React.FC = () => {
         <div className="bg-white rounded-lg shadow-sm border p-6">
           <h3 className="text-lg font-semibold text-gray-900 mb-4">Revenue Trend</h3>
           <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={monthlyData}>
+            <LineChart data={stats.monthlyData}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="month" />
               <YAxis />
