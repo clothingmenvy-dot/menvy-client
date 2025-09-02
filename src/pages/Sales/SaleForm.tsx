@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState, AppDispatch } from '../../store/store';
@@ -26,6 +26,7 @@ const SaleForm: React.FC<SaleFormProps> = ({ sale, onClose }) => {
   const { products } = useSelector((state: RootState) => state.products);
   const { sellers } = useSelector((state: RootState) => state.sellers);
   const { isLoading } = useSelector((state: RootState) => state.sales);
+  const [billNo, setBillNo] = useState('');
 
   const { register, handleSubmit, watch, formState: { errors } } = useForm<SaleFormData>({
     defaultValues: sale ? {
@@ -39,7 +40,18 @@ const SaleForm: React.FC<SaleFormProps> = ({ sale, onClose }) => {
   useEffect(() => {
     dispatch(fetchProducts());
     dispatch(fetchSellers());
-  }, [dispatch]);
+    
+    // Generate bill number for new sales
+    if (!sale) {
+      generateBillNumber();
+    }
+  }, [dispatch, sale]);
+
+  // Generate random bill number in the format MVXXXXXX
+  const generateBillNumber = () => {
+    const randomNum = Math.floor(100000 + Math.random() * 900000);
+    setBillNo(`MV${randomNum}`);
+  };
 
   const watchedQuantity = watch('quantity');
   const watchedPrice = watch('price');
@@ -52,6 +64,7 @@ const SaleForm: React.FC<SaleFormProps> = ({ sale, onClose }) => {
 
       const saleData = {
         ...data,
+        bill_no: sale ? sale.bill_no : billNo, // Use existing bill_no for updates, new one for creates
         total: data.quantity * data.price,
         productName: selectedProduct?.name || '',
         sellerName: selectedSeller?.name || '',
@@ -80,6 +93,21 @@ const SaleForm: React.FC<SaleFormProps> = ({ sale, onClose }) => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+      {/* Bill Number Display */}
+      <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
+        <div className="flex justify-between items-center">
+          <span className="text-lg font-medium text-blue-700">Bill Number:</span>
+          <span className="text-2xl font-bold text-blue-800">
+            {sale ? sale.bill_no : billNo || 'Generating...'}
+          </span>
+        </div>
+        {!sale && (
+          <p className="text-sm text-blue-600 mt-2">
+            This bill number will be automatically assigned to the sale.
+          </p>
+        )}
+      </div>
+
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-2">
           Product *
@@ -168,7 +196,7 @@ const SaleForm: React.FC<SaleFormProps> = ({ sale, onClose }) => {
       <div className="flex space-x-4 pt-6">
         <button
           type="submit"
-          disabled={isLoading}
+          disabled={isLoading || (!sale && !billNo)}
           className="flex-1 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50"
         >
           {sale ? 'Update Sale' : 'Record Sale'}

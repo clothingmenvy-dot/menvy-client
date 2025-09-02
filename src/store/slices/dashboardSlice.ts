@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-// store/slices/dashboardSlice.ts
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { RootState } from '../store';
+import { apiClient } from '../api/apiClient';
+
 
 interface DashboardStats {
   totalProducts: number;
@@ -37,18 +38,12 @@ const initialState: DashboardState = {
   error: null,
 };
 
-// Async thunk to fetch dashboard data
+// Async thunk to fetch dashboard data using apiClient
 export const fetchDashboardData = createAsyncThunk(
   'dashboard/fetchData',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await fetch('/api/v2/dashboard');
-      const data = await response.json();
-      
-      if (!response.ok) {
-        throw new Error(data.message || 'Failed to fetch dashboard data');
-      }
-      
+      const data = await apiClient.getDashboard<DashboardStats>();
       return data;
     } catch (error: any) {
       return rejectWithValue(error.message || 'Failed to fetch dashboard data');

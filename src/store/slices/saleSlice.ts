@@ -39,7 +39,6 @@ export const createSale = createAsyncThunk<Sale, Omit<Sale, 'id' | 'createdAt' |
   'sales/createSale',
   async (saleData, { rejectWithValue }) => {
     try {
-      console.log('Creating sale with data:', saleData);
       const response = await apiClient.createSale(saleData);
       return response.data; // Return only the data portion
     } catch (error: any) {

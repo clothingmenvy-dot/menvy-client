@@ -87,6 +87,11 @@ class ApiClient {
     return this.request<T>(endpoint, { method: 'DELETE' });
   }
 
+  // Dashboard
+  async getDashboard<T>(): Promise<T> {
+    return this.get<T>('/dashboard');
+  }
+
   // Products
   async getProducts<T>(): Promise<T> {
     return this.get<T>('/products');
@@ -147,7 +152,7 @@ class ApiClient {
     return this.post<T>('/sellers', seller);
   }
 
-  competitorsUpdateSeller<T>(id: string, seller: any): Promise<T> {
+  async updateSeller<T>(id: string, seller: any): Promise<T> {
     return this.put<T>(`/sellers/${id}`, seller);
   }
 
@@ -195,6 +200,7 @@ class ApiClient {
   }
 
   async createUser<T>(user: any): Promise<T> {
+    console.log('Creating user:', user);
     return this.post<T>('/users', user);
   }
 

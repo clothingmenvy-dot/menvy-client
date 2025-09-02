@@ -10,7 +10,8 @@ import {
   User,
   LogOut,
   TrendingUp,
-  Shield
+  Shield,
+  RegexIcon
 } from 'lucide-react';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../store/store';
@@ -27,10 +28,11 @@ const Sidebar: React.FC = () => {
   const menuItems = [
     { icon: LayoutDashboard, label: 'Dashboard', path: '/dashboard' },
     { icon: Package, label: 'Products', path: '/products', secure: true },
-    { icon: Users, label: 'Sellers', path: '/sellers' },
+    { icon: Users, label: 'Sellers', path: '/sellers', secure: true },
     { icon: ShoppingCart, label: 'Sales', path: '/sales' },
     { icon: ShoppingBag, label: 'Purchases', path: '/purchases', secure: true },
     { icon: User, label: 'Profile', path: '/profile' },
+    { icon: RegexIcon, label: 'Register', path: '/register' },
   ];
 
   const handleLogout = async () => {
@@ -67,7 +69,7 @@ const Sidebar: React.FC = () => {
     <div className="bg-white shadow-lg h-full w-64 fixed left-0 top-0 z-30 border-r border-gray-200">
       <div className="p-6 border-b border-gray-200">
         <div className="flex items-center space-x-3">
-            <img src={logo} alt="InventoryPro Logo" />
+          <img src={logo} alt="InventoryPro Logo" />
           <div>
           </div>
         </div>
@@ -84,8 +86,8 @@ const Sidebar: React.FC = () => {
                 key={item.path}
                 to={item.path}
                 className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 group ${isActive
-                    ? 'bg-gradient-to-r from-blue-50 to-indigo-50 text-blue-600 border-r-2 border-blue-600 shadow-sm'
-                    : 'text-gray-600 hover:bg-gray-50 hover:text-gray-800'
+                  ? 'bg-gradient-to-r from-blue-50 to-indigo-50 text-blue-600 border-r-2 border-blue-600 shadow-sm'
+                  : 'text-gray-600 hover:bg-gray-50 hover:text-gray-800'
                   }`}
               >
                 <IconComponent className={`w-5 h-5 ${isActive ? 'text-blue-600' : 'group-hover:text-gray-800'}`} />

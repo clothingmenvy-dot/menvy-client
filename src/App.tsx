@@ -31,14 +31,6 @@ const AuthWrapper: React.FC = () => {
           </ProtectedRoute>
         }
       />
-      <Route
-        path="/register"
-        element={
-          <ProtectedRoute requireAuth={false}>
-            <Register />
-          </ProtectedRoute>
-        }
-      />
 
       {/* Protected Routes */}
       <Route
@@ -67,9 +59,11 @@ const AuthWrapper: React.FC = () => {
         path="/sellers"
         element={
           <ProtectedRoute>
-            <Layout>
-              <Sellers />
-            </Layout>
+            <ProductsProtectedRoute>
+              <Layout>
+                <Sellers />
+              </Layout>
+            </ProductsProtectedRoute>
           </ProtectedRoute>
         }
       />
@@ -101,6 +95,16 @@ const AuthWrapper: React.FC = () => {
           <ProtectedRoute>
             <Layout>
               <Profile />
+            </Layout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/register"
+        element={
+          <ProtectedRoute>
+            <Layout>
+              <Register />
             </Layout>
           </ProtectedRoute>
         }
