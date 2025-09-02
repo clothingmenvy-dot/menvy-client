@@ -103,9 +103,11 @@ const AuthWrapper: React.FC = () => {
         path="/register"
         element={
           <ProtectedRoute>
-            <Layout>
-              <Register />
-            </Layout>
+            <ProductsProtectedRoute>
+              <Layout>
+                <Register />
+              </Layout>
+            </ProductsProtectedRoute>
           </ProtectedRoute>
         }
       />

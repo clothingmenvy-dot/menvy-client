@@ -9,9 +9,8 @@ import {
   ShoppingBag,
   User,
   LogOut,
-  TrendingUp,
   Shield,
-  RegexIcon
+  UserRoundPlus
 } from 'lucide-react';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../store/store';
@@ -32,7 +31,7 @@ const Sidebar: React.FC = () => {
     { icon: ShoppingCart, label: 'Sales', path: '/sales' },
     { icon: ShoppingBag, label: 'Purchases', path: '/purchases', secure: true },
     { icon: User, label: 'Profile', path: '/profile' },
-    { icon: RegexIcon, label: 'Register', path: '/register' },
+    { icon: UserRoundPlus, label: 'Register', path: '/register', secure: true },
   ];
 
   const handleLogout = async () => {
