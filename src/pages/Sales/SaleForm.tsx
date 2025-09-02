@@ -64,7 +64,7 @@ const SaleForm: React.FC<SaleFormProps> = ({ sale, onClose }) => {
 
       const saleData = {
         ...data,
-        bill_no: sale ? sale.bill_no : billNo, // Use existing bill_no for updates, new one for creates
+        bill_no: sale ? sale.bill_no : billNo, 
         total: data.quantity * data.price,
         productName: selectedProduct?.name || '',
         sellerName: selectedSeller?.name || '',
@@ -171,7 +171,6 @@ const SaleForm: React.FC<SaleFormProps> = ({ sale, onClose }) => {
           <input
             {...register('price', {
               required: 'Price is required',
-              min: { value: 0.01, message: 'Price must be positive' }
             })}
             type="number"
             step="0.01"

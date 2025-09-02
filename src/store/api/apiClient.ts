@@ -6,7 +6,7 @@ class ApiClient {
   private baseURL: string;
   private axiosInstance: AxiosInstance;
 
-  constructor(baseURL: string = 'https://menvy-org-server.vercel.app/api/v2') {
+  constructor(baseURL: string = 'http://localhost:5000/api/v2') {
     this.baseURL = baseURL;
     this.axiosInstance = axios.create({
       baseURL,

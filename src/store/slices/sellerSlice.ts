@@ -47,7 +47,7 @@ export const updateSeller = createAsyncThunk<Seller, Seller, { rejectValue: stri
   'sellers/updateSeller',
   async (seller, { rejectWithValue }) => {
     try {
-      const response = await apiClient.competitorsUpdateSeller(seller._id, seller);
+      const response = await apiClient.updateSeller(seller._id, seller);
       return response.data; // Return only the data portion
     } catch (error: any) {
       return rejectWithValue(error.message || 'Failed to update seller');
